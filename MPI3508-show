@@ -16,15 +16,15 @@ sudo echo "hdmi_mode=87" >> ./boot/config.txt.bak
 sudo echo "hdmi_drive=2" >> ./boot/config.txt.bak
 sudo echo "hdmi_cvt 480 320 60 6 0 0 0" >> ./boot/config.txt.bak
 sudo echo "dtoverlay=ads7846,cs=1,penirq=25,penirq_pull=2,speed=50000,keep_vref_on=0,swapxy=0,pmax=255,xohms=150,xmin=200,xmax=3900,ymin=200,ymax=3900" >> ./boot/config.txt.bak
-sudo cp -rf ./boot/config.txt.bak /boot/config.txt
+sudo cp -rf ./boot/config.txt.bak /boot/firmware/config.txt
 
-#sudo cp -rf ./boot/config-35-480X320.txt /boot/config.txt 
-if [ -b /dev/mmcblk0p7 ]; then
-sudo cp ./usr/cmdline.txt-noobs /boot/cmdline.txt
-else
-sudo cp ./usr/cmdline.txt /boot/
-fi
-sudo cp ./usr/inittab /etc/
+#sudo cp -rf ./boot/config-35-480X320.txt /boot/firmware/config.txt 
+#if [ -b /dev/mmcblk0p7 ]; then
+#sudo cp ./usr/cmdline.txt-noobs /boot/firmware/cmdline.txt
+#else
+#sudo cp ./usr/cmdline.txt /boot/firmware/
+#fi
+#sudo cp ./usr/inittab /etc/
 sudo cp -rf ./usr/99-fbturbo.conf-HDMI /usr/share/X11/xorg.conf.d/99-fbturbo.conf 
 if [ ! -d /etc/X11/xorg.conf.d ]; then
 sudo mkdir /etc/X11/xorg.conf.d 
@@ -32,17 +32,18 @@ fi
 sudo cp -rf ./usr/99-calibration.conf-3508-0 /etc/X11/xorg.conf.d/99-calibration.conf
 sudo touch ./.have_installed
 echo "hdmi:resistance:3508:0:480:320" > ./.have_installed
-nodeplatform=`uname -n`
-kernel=`uname -r`
-version=`uname -v`
-if test "$nodeplatform" = "raspberrypi";then
-echo "this is raspberrypi kernel"
-version=${version%% *}
-version=${version#*#}
-echo $version
-if test $version -lt 970;then
-echo "reboot"
-else
+
+#nodeplatform=`uname -n`
+#kernel=`uname -r`
+version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+#if test "$nodeplatform" = "raspberrypi";then
+#echo "this is raspberrypi kernel"
+#version=${version%% *}
+#version=${version#*#}
+#echo $version
+if [ "$version" = "18.04" ] || [[ "$version" > "18.04" ]]; then
+#echo "reboot"
+#else
 echo "need to update touch configuration"
 sudo dpkg -i -B ./xserver-xorg-input-evdev_2.10.5-1_armhf.deb 2> error_output.txt
 #sudo apt-get install xserver-xorg-input-evdev 2> error_output.txt
@@ -51,9 +52,9 @@ echo -e "\033[31m$result\033[0m"
 grep -q "error:" ./error_output.txt && exit
 sudo cp -rf /usr/share/X11/xorg.conf.d/10-evdev.conf /usr/share/X11/xorg.conf.d/45-evdev.conf
 #echo "reboot"
-fi
+#fi
 else
-echo "this is not raspberrypi kernel, no need to update touch configure, reboot"
+echo "This version is lower than ubuntu 18.04, no need to update touch configure, reboot"
 fi
 
 sudo sync
