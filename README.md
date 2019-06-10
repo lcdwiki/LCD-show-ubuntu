@@ -1,13 +1,33 @@
-Ubuntu LCD driver for the Raspberry PI Installation<br>
+LCD driver for the Raspberry PI Installation<br>
 ====================================================
-Create: <br>
-v1.0-20190610<br>
-Create repository<br>
+Update: <br>
+v1.9-20181204<br>
+Update to support MHS40 & MHS32<br>
+Update: <br>
+v1.8-20180907<br>
+Update to support MHS35<br>
+Update: <br>
+v1.7-20180320<br>
+Update to support Raspbian Version:March 2018(Release date:2018-03-13)<br>
+Update: <br>
+  v1.6-20170824<br>
+  Update xserver to support Raspbian-2017-08-16<br>
+Update: <br>
+  v1.5-20170706<br>
+  Update to support Raspbian-2017-07-05,Raspbian-2017-06-21<br>
+Update: <br>
+  v1.3-20170612<br>
+  fixed to support Raspbian-2017-03-02,Raspbian-2017-04-10<br>
+Update: <br>
+  v1.2-20170302<br>
+  Add xserver-xorg-input-evdev_1%3a2.10.3-1_armhf.deb to support Raspbian-2017-03-02<br>
+Update: <br>
+  v1.1-20160815<br><br>
   
-1.)Step1, Install Ubuntu official mirror <br>
+1.)Step1, Install Raspbian official mirror <br>
 ====================================================
-  a)Download Ubuntu official mirror:<br>
-  https://ubuntu-mate.org/raspberry-pi/<br>
+  a)Download Raspbian official mirror:<br>
+  https://www.raspberrypi.org/downloads/<br>
   b)Use“SDFormatter.exe”to Format your TF Card<br>
   c)Use“Win32DiskImager.exe” Burning mirror to TF Card<br>
      
@@ -18,9 +38,9 @@ And Ensure that the raspberry pi is connected to the Internet before executing t
 -----------------------------------------------------------------------------------------------------
 
 ```sudo rm -rf LCD-show```<br>
-```git clone https://github.com/lcdwiki/LCD-show-Ubuntu.git```<br>
-```chmod -R 755 LCD-show-Ubuntu```<br>
-```cd LCD-show-Ubuntu/```<br>
+```git clone https://github.com/goodtft/LCD-show.git```<br>
+```chmod -R 755 LCD-show```<br>
+```cd LCD-show/```<br>
   
 3.)Step3, According to your LCD's type, excute:
 ====================================================
@@ -54,3 +74,7 @@ If you need to switch back to the traditional HDMI display<br>
   ```sudo ./LCD-hdmi```<br>
 
 Wait a few minutes,the system will restart automaticall , enjoy with your LCD.
+-------------------------------------------------------------------------------
+The LCD-show.tar.gz also can be download from:
+http://www.lcdwiki.com/RaspberryPi-LCD-Driver
+<br><br>
