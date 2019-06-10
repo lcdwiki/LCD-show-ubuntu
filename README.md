@@ -74,7 +74,3 @@ If you need to switch back to the traditional HDMI display<br>
   ```sudo ./LCD-hdmi```<br>
 
 Wait a few minutes,the system will restart automaticall , enjoy with your LCD.
--------------------------------------------------------------------------------
-The LCD-show.tar.gz also can be download from:
-http://www.lcdwiki.com/RaspberryPi-LCD-Driver
-<br><br>
