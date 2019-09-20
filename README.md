@@ -38,8 +38,8 @@ And Ensure that the raspberry pi is connected to the Internet before executing t
 -----------------------------------------------------------------------------------------------------
 
 ```sudo rm -rf LCD-show```<br>
-```git clone https://github.com/goodtft/LCD-show.git```<br>
-```chmod -R 755 LCD-show```<br>
+```git clone https://github.com/goodtft/LCD-show-ubuntu.git```<br>
+```chmod -R 755 LCD-LCD-show-ubuntu```<br>
 ```cd LCD-show/```<br>
   
 3.)Step3, According to your LCD's type, excute:
