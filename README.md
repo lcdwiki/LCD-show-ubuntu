@@ -1,6 +1,9 @@
 LCD driver for the Raspberry PI Installation<br>
 ====================================================
 Update: <br>
+v2.0-20200630<br>
+Update MPI4008 touch screen calibration parameters<br>
+Update: <br>
 v1.9-20181204<br>
 Update to support MHS40 & MHS32<br>
 Update: <br>
@@ -24,10 +27,10 @@ Update: <br>
 Update: <br>
   v1.1-20160815<br><br>
   
-1.)Step1, Install Raspbian official mirror <br>
+1.)Step1, Install Ubuntu official mirror <br>
 ====================================================
-  a)Download Raspbian official mirror:<br>
-  https://www.raspberrypi.org/downloads/<br>
+  a)Download Ubuntu official mirror:<br>
+  https://ubuntu-mate.org/raspberry-pi/<br>
   b)Use“SDFormatter.exe”to Format your TF Card<br>
   c)Use“Win32DiskImager.exe” Burning mirror to TF Card<br>
      
@@ -37,10 +40,10 @@ Use SSH to connect the raspberry pi, <br>
 And Ensure that the raspberry pi is connected to the Internet before executing the following commands:
 -----------------------------------------------------------------------------------------------------
 
-```sudo rm -rf LCD-show```<br>
-```git clone https://github.com/goodtft/LCD-show.git```<br>
-```chmod -R 755 LCD-show```<br>
-```cd LCD-show/```<br>
+```sudo rm -rf LCD-show-ubuntu```<br>
+```git clone https://github.com/lcdwiki/LCD-show-ubuntu.git```<br>
+```chmod -R 755 LCD-show-ubuntu```<br>
+```cd LCD-show-ubuntu/```<br>
   
 3.)Step3, According to your LCD's type, excute:
 ====================================================
