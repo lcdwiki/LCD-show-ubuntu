@@ -1,7 +1,7 @@
 LCD driver for the Raspberry PI Installation<br>
 ====================================================
 Update: <br>
-v2.0-20200927<br>
+v2.1-20200927<br>
 Update all driver for 20.04<br>
 Update: <br>
 v2.0-20200630<br>
