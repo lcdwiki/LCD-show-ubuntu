@@ -1,6 +1,16 @@
+#!/bin/bash
+
 sudo cp -rf ./usr/modules-HDMI  /etc/modules
 sudo cp -rf ./usr/99-fbturbo.conf-HDMI  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
-sudo cp ./boot/config-nomal.txt /boot/config.txt
+
+version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+
+if [[ "$version" < "20.04" ]]; then
+sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
+else
+sudo cp -rf ./boot/config-nomal-20.04.txt ./boot/config.txt.bak
+fi
+#sudo cp ./boot/config-nomal.txt /boot/config.txt
 if [ -b /dev/mmcblk0p7 ]; then
 sudo cp ./usr/cmdline.txt-noobs /boot/cmdline.txt
 else

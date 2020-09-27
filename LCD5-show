@@ -2,7 +2,14 @@
 
 sudo ./system_backup.sh
 
+version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+
+if [[ "$version" < "20.04" ]]; then
 sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
+else
+sudo cp -rf ./boot/config-nomal-20.04.txt ./boot/config.txt.bak
+fi
+#sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
 sudo echo "hdmi_force_hotplug=1" >> ./boot/config.txt.bak
 sudo echo "dtparam=i2c_arm=on" >> ./boot/config.txt.bak
 sudo echo "dtparam=spi=on" >> ./boot/config.txt.bak
@@ -34,7 +41,7 @@ sudo touch ./.have_installed
 echo "hdmi:resistance:5:0:800:480" > ./.have_installed
 #nodeplatform=`uname -n`
 #kernel=`uname -r`
-version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+#version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
 #if test "$nodeplatform" = "raspberrypi";then
 #echo "this is raspberrypi kernel"
 #version=${version%% *}

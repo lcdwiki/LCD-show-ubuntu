@@ -2,6 +2,8 @@
 
 sudo ./system_backup.sh
 
+version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+
 if [ -f /etc/X11/xorg.conf.d/40-libinput.conf ]; then
 sudo rm -rf /etc/X11/xorg.conf.d/40-libinput.conf
 fi
@@ -10,7 +12,16 @@ sudo mkdir -p /etc/X11/xorg.conf.d
 fi
 sudo cp ./usr/tft9341-overlay.dtb /boot/firmware/overlays/
 sudo cp ./usr/tft9341-overlay.dtb /boot/firmware/overlays/tft9341.dtbo
+if [[ "$version" < "20.04" ]]; then
 sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
+sudo cp -rf ./usr/99-fbturbo.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+else
+sudo cp -rf ./boot/config-nomal-20.04.txt ./boot/config.txt.bak
+sudo cp -rf ./usr/99-fbturbo-20.04.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+row=`grep -nr "dtoverlay=vc4-fkms-v3d" ./boot/config.txt.bak | awk -F ':' '{if(NR==1)printf $1}'`
+sudo sed -i -e ''"$row"'s/dtoverlay=vc4-fkms-v3d/#dtoverlay=vc4-fkms-v3d/' ./boot/config.txt.bak
+fi
+#sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
 sudo echo "hdmi_force_hotplug=1" >> ./boot/config.txt.bak
 sudo echo "dtparam=i2c_arm=on" >> ./boot/config.txt.bak
 sudo echo "dtparam=spi=on" >> ./boot/config.txt.bak
@@ -18,7 +29,7 @@ sudo echo "enable_uart=1" >> ./boot/config.txt.bak
 sudo echo "dtoverlay=tft9341:rotate=270" >> ./boot/config.txt.bak
 sudo cp -rf ./boot/config.txt.bak /boot/firmware/config.txt
 sudo cp -rf ./usr/99-calibration.conf-32-270  /etc/X11/xorg.conf.d/99-calibration.conf
-sudo cp -rf ./usr/99-fbturbo.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+#sudo cp -rf ./usr/99-fbturbo.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 #if [ -b /dev/mmcblk0p7 ]; then
 #sudo cp ./usr/cmdline.txt-noobs /boot/firmware/cmdline.txt
 #else
@@ -31,7 +42,7 @@ echo "gpio:resistance:32:270:320:240" > ./.have_installed
 #evdev install
 #nodeplatform=`uname -n`
 #kernel=`uname -r`
-version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+#version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
 #if test "$nodeplatform" = "raspberrypi";then
 #echo "this is raspberrypi kernel"
 #version=${version%% *}
