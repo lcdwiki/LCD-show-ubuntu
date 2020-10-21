@@ -72,7 +72,16 @@ sudo dpkg -P xserver-xorg-input-evdev
 #echo -e "\033[31m$result\033[0m"
 fi
 if [ -f ./.system_backup/10-evdev.conf ]; then
+wget --spider -q -o /dev/null --tries=1 -T 10 https://www.x.org
+if [ $? -eq 0 ]; then
+sudo apt-get install xserver-xorg-input-evdev -y
+else
+if [ $(getconf WORD_BIT) = '32' ] && [ $(getconf LONG_BIT) = '64' ] ; then
+sudo dpkg -i -B ./xserver-xorg-input-evdev_1%3a2.10.6-1_arm64.deb
+else
 sudo dpkg -i -B ./xserver-xorg-input-evdev_2.10.5-1_armhf.deb
+fi
+fi
 #sudo apt-get install xserver-xorg-input-evdev -y 2> error_output.txt
 #result=`cat ./error_output.txt`
 #echo -e "\033[31m$result\033[0m"
