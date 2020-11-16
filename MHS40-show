@@ -2,7 +2,9 @@
 
 sudo ./system_backup.sh
 
-version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+#version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+
+source ./system_config.sh
 
 if [ -f /etc/X11/xorg.conf.d/40-libinput.conf ]; then
 sudo rm -rf /etc/X11/xorg.conf.d/40-libinput.conf
@@ -10,14 +12,25 @@ fi
 if [ ! -d /etc/X11/xorg.conf.d ]; then
 sudo mkdir -p /etc/X11/xorg.conf.d
 fi
+
+if [ "$version" = "20.10" ] || [[ "$version" > "20.10" ]]; then
+sudo cp ./usr/mhs395-overlay-20.10.dtb /boot/firmware/overlays/mhs395-overlay.dtb
+sudo cp ./usr/mhs395-overlay-20.10.dtb /boot/firmware/overlays/mhs395.dtbo
+else
 sudo cp ./usr/mhs395-overlay.dtb /boot/firmware/overlays/
 sudo cp ./usr/mhs395-overlay.dtb /boot/firmware/overlays/mhs395.dtbo
+fi
+
 if [[ "$version" < "20.04" ]]; then
-sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
+#sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
 sudo cp -rf ./usr/99-fbturbo.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 else
-sudo cp -rf ./boot/config-nomal-20.04.txt ./boot/config.txt.bak
+if [[ "$version" = "20.04" ]]; then
+#sudo cp -rf ./boot/config-nomal-20.04.txt ./boot/config.txt.bak
 sudo cp -rf ./usr/99-fbturbo-20.04.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+else
+sudo cp -rf ./usr/99-fbturbo.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+fi
 row=`grep -nr "dtoverlay=vc4-fkms-v3d" ./boot/config.txt.bak | awk -F ':' '{if(NR==1)printf $1}'`
 sudo sed -i -e ''"$row"'s/dtoverlay=vc4-fkms-v3d/#dtoverlay=vc4-fkms-v3d/' ./boot/config.txt.bak
 fi
@@ -33,7 +46,11 @@ sudo echo "hdmi_mode=87" >> ./boot/config.txt.bak
 sudo echo "hdmi_cvt 480 320 60 6 0 0 0" >> ./boot/config.txt.bak
 sudo echo "hdmi_drive=2" >> ./boot/config.txt.bak
 sudo cp -rf ./boot/config.txt.bak /boot/firmware/config.txt
+if [ "$version" = "20.10" ] || [[ "$version" > "20.10" ]]; then
+sudo cp -rf ./usr/99-calibration.conf-mhs395-270  /etc/X11/xorg.conf.d/99-calibration.conf
+else
 sudo cp -rf ./usr/99-calibration.conf-mhs395-90  /etc/X11/xorg.conf.d/99-calibration.conf
+fi
 #sudo cp -rf ./usr/99-fbturbo.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 #if [ -b /dev/mmcblk0p7 ]; then
 #sudo cp ./usr/cmdline.txt-noobs /boot/firmware/cmdline.txt
@@ -46,6 +63,7 @@ sudo touch ./.have_installed
 echo "gpio:resistance:mhs395:90:480:320" > ./.have_installed
 
 #FBCP install
+if false; then
 wget --spider -q -o /dev/null --tries=1 -T 10 https://github.com
 if [ $? -eq 0 ]; then
 sudo cp -rf ./usr/99-fbturbo-fbcp.conf  /usr/share/X11/xorg.conf.d/99-fbturbo.conf
@@ -65,6 +83,7 @@ sudo make
 sudo install fbcp /usr/local/bin/fbcp
 cd - > /dev/null
 fi
+fi
 #evdev install
 #nodeplatform=`uname -n`
 #kernel=`uname -r`
@@ -78,7 +97,16 @@ if [ "$version" = "18.04" ] || [[ "$version" > "18.04" ]]; then
 #echo "reboot"
 #else
 echo "need to update touch configuration"
+wget --spider -q -o /dev/null --tries=1 -T 10 https://www.x.org
+if [ $? -eq 0 ]; then
+sudo apt-get install xserver-xorg-input-evdev  2> error_output.txt
+else
+if [ $hardware_arch -eq 32 ]; then
 sudo dpkg -i -B ./xserver-xorg-input-evdev_2.10.5-1_armhf.deb 2> error_output.txt
+elif [ $hardware_arch -eq 64 ]; then
+sudo dpkg -i -B ./xserver-xorg-input-evdev_1%3a2.10.6-1_arm64.deb 2> error_output.txt
+fi
+fi
 #sudo apt-get install xserver-xorg-input-evdev  2> error_output.txt
 result=`cat ./error_output.txt`
 echo -e "\033[31m$result\033[0m"

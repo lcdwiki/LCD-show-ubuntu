@@ -2,20 +2,21 @@
 
 sudo ./system_backup.sh
 
-version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
+#version=`lsb_release -r | awk -F ' '  '{printf $NF}'`
 
-if [[ "$version" < "20.04" ]]; then
-sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
-else
-sudo cp -rf ./boot/config-nomal-20.04.txt ./boot/config.txt.bak
-fi
+#if [[ "$version" < "20.04" ]]; then
+#sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
+#else
+#sudo cp -rf ./boot/config-nomal-20.04.txt ./boot/config.txt.bak
+#fi
+source ./system_config.sh
 #sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
 sudo echo "hdmi_force_hotplug=1" >> ./boot/config.txt.bak
 sudo echo "hdmi_force_edid_audio=1" >> ./boot/config.txt.bak
 sudo echo "dtparam=i2c_arm=on" >> ./boot/config.txt.bak
 sudo echo "dtparam=spi=on" >> ./boot/config.txt.bak
 sudo echo "enable_uart=1" >> ./boot/config.txt.bak
-sudo echo "display_rotate=3" >> ./boot/config.txt.bak
+sudo echo "display_rotate=0" >> ./boot/config.txt.bak
 sudo echo "max_usb_current=1" >> ./boot/config.txt.bak
 sudo echo "config_hdmi_boost=7" >> ./boot/config.txt.bak
 sudo echo "hdmi_group=2" >> ./boot/config.txt.bak
@@ -26,7 +27,7 @@ sudo echo "hdmi_cvt 480 800 60 6 0 0 0" >> ./boot/config.txt.bak
 sudo echo "dtoverlay=ads7846,cs=1,penirq=25,penirq_pull=2,speed=50000,keep_vref_on=0,swapxy=0,pmax=255,xohms=150,xmin=200,xmax=3900,ymin=200,ymax=3900" >> ./boot/config.txt.bak
 sudo cp -rf ./boot/config.txt.bak /boot/firmware/config.txt
 
-#sudo cp -rf ./boot/config-397.txt /boot/firmware/config.txt 
+#sudo cp -rf ./boot/config-397.txt /boot/firmware/config.txt
 
 #if [ -b /dev/mmcblk0p7 ]; then
 #sudo cp ./usr/cmdline.txt-noobs /boot/firmware/cmdline.txt
@@ -34,11 +35,11 @@ sudo cp -rf ./boot/config.txt.bak /boot/firmware/config.txt
 #sudo cp ./usr/cmdline.txt /boot/firmware/
 #fi
 #sudo cp ./usr/inittab /etc/
-sudo cp -rf ./usr/99-fbturbo.conf-HDMI /usr/share/X11/xorg.conf.d/99-fbturbo.conf 
+sudo cp -rf ./usr/99-fbturbo.conf-HDMI /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 if [ ! -d /etc/X11/xorg.conf.d ]; then
-sudo mkdir /etc/X11/xorg.conf.d 
+sudo mkdir /etc/X11/xorg.conf.d
 fi
-sudo cp -rf ./usr/99-calibration.conf-397-270 /etc/X11/xorg.conf.d/99-calibration.conf 
+sudo cp -rf ./usr/99-calibration.conf-397-0 /etc/X11/xorg.conf.d/99-calibration.conf
 sudo touch ./.have_installed
 echo "hdmi:resistance:397:270:480:800" > ./.have_installed
 
@@ -54,7 +55,16 @@ if [ "$version" = "18.04" ] || [[ "$version" > "18.04" ]]; then
 #echo "reboot"
 #else
 echo "need to update touch configuration"
+wget --spider -q -o /dev/null --tries=1 -T 10 https://www.x.org
+if [ $? -eq 0 ]; then
+sudo apt-get install xserver-xorg-input-evdev  2> error_output.txt
+else
+if [ $hardware_arch -eq 32 ]; then
 sudo dpkg -i -B ./xserver-xorg-input-evdev_2.10.5-1_armhf.deb 2> error_output.txt
+elif [ $hardware_arch -eq 64 ]; then
+sudo dpkg -i -B ./xserver-xorg-input-evdev_1%3a2.10.6-1_arm64.deb 2> error_output.txt
+fi
+fi
 #sudo apt-get install xserver-xorg-input-evdev 2> error_output.txt
 result=`cat ./error_output.txt`
 echo -e "\033[31m$result\033[0m"

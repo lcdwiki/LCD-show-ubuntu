@@ -35,10 +35,15 @@ fi
 
 sudo cp -rf /boot/firmware/config.txt ./.system_backup
 sudo cp -rf ./boot/config-nomal.txt /boot/firmware/config.txt
-sudo cp -rf /usr/share/X11/xorg.conf.d/99-fbturbo.conf ./.system_backup/
-sudo cp -rf ./usr/99-fbturbo.conf-original /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+#sudo cp -rf /usr/share/X11/xorg.conf.d/99-fbturbo.conf ./.system_backup/
+#sudo cp -rf ./usr/99-fbturbo.conf-original /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 #sudo cp -rf /boot/firmware/cmdline.txt ./.system_backup/
 #sudo cp -rf ./usr/cmdline.txt-original /boot/firmware/cmdline.txt
+
+if [ -f /usr/share/X11/xorg.conf.d/99-fbturbo.conf ];then
+sudo cp -rf /usr/share/X11/xorg.conf.d/99-fbturbo.conf ./.system_backup/
+sudo rm -rf /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+fi
 
 if [ -f /etc/rc.local ]; then
 sudo cp -rf /etc/rc.local ./.system_backup/

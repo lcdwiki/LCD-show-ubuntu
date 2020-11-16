@@ -27,9 +27,16 @@ fi
 ls -al ./.system_backup/*.dtb > /dev/null 2>&1 && sudo cp -rf ./.system_backup/*.dtb  /boot/firmware/overlays/
 ls -al ./.system_backup/*.dtbo > /dev/null 2>&1 && sudo cp -rf ./.system_backup/*.dtbo  /boot/firmware/overlays/
 
-sudo cp -rf ./.system_backup/99-fbturbo.conf /usr/share/X11/xorg.conf.d
+#sudo cp -rf ./.system_backup/99-fbturbo.conf /usr/share/X11/xorg.conf.d
 #sudo cp -rf ./.system_backup/cmdline.txt /boot/firmware/
 sudo cp -rf ./.system_backup/config.txt /boot/firmware/
+
+if [ -f /usr/share/X11/xorg.conf.d/99-fbturbo.conf ]; then
+sudo rm -rf /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+fi
+if [ -f ./.system_backup/99-fbturbo.conf ]; then
+sudo cp -rf ./.system_backup/99-fbturbo.conf /usr/share/X11/xorg.conf.d/
+fi
 
 if [ -f /etc/rc.local ]; then
 sudo rm -rf /etc/rc.local
