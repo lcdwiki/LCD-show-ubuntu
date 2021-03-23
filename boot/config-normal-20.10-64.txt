@@ -1,0 +1,27 @@
+[pi4]
+kernel=uboot_rpi_4.bin
+max_framebuffers=2
+
+[pi2]
+kernel=uboot_rpi_2.bin
+
+[pi3]
+kernel=uboot_rpi_3.bin
+
+[all]
+arm_64bit=1
+device_tree_address=0x03000000
+
+# The following settings are "defaults" expected to be overridden by the
+# included configuration. The only reason they are included is, again, to
+# support old firmwares which don't understand the "include" command.
+
+enable_uart=1
+cmdline=cmdline.txt
+
+include syscfg.txt
+include usercfg.txt
+
+disable_overscan=1
+dtoverlay=vc4-fkms-v3d
+hdmi_drive=2
