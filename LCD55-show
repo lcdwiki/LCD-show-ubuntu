@@ -17,14 +17,14 @@ sudo echo "hdmi_force_hotplug=1" >> ./boot/config.txt.bak
 sudo echo "dtparam=i2c_arm=on" >> ./boot/config.txt.bak
 sudo echo "dtparam=spi=on" >> ./boot/config.txt.bak
 sudo echo "enable_uart=1" >> ./boot/config.txt.bak
-sudo echo "display_rotate=1" >> ./boot/config.txt.bak
+sudo echo "display_rotate=0" >> ./boot/config.txt.bak
 sudo echo "max_framebuffer_height=1920" >> ./boot/config.txt.bak
 sudo echo "max_usb_current=1" >> ./boot/config.txt.bak
 sudo echo "config_hdmi_boost=7" >> ./boot/config.txt.bak
 sudo echo "hdmi_group=2" >> ./boot/config.txt.bak
 sudo echo "hdmi_mode=87" >> ./boot/config.txt.bak
-sudo echo "hdmi_drive=2" >> ./boot/config.txt.bak
-sudo echo "hdmi_timings=1080 0 100 10 100 1920 0 15 5 15 0 0 0 60 0 152470000 3" >> ./boot/config.txt.bak
+sudo echo "hdmi_drive=1" >> ./boot/config.txt.bak
+sudo echo "hdmi_cvt=1920 1080 60 6 0 0 0" >> ./boot/config.txt.bak
 sudo cp -rf ./boot/config.txt.bak /boot/firmware/config.txt
 #sudo cp -rf ./boot/config-7C-1024x600.txt /boot/firmware/config.txt
 #if [ -b /dev/mmcblk0p7 ]; then
@@ -38,9 +38,9 @@ sudo cp -rf ./usr/99-fbturbo.conf-HDMI /usr/share/X11/xorg.conf.d/99-fbturbo.con
 if [ ! -d /etc/X11/xorg.conf.d ]; then
 sudo mkdir /etc/X11/xorg.conf.d
 fi
-sudo cp ./usr/40-libinput.conf-90 /etc/X11/xorg.conf.d/40-libinput.conf
+sudo cp ./usr/40-libinput.conf-0 /etc/X11/xorg.conf.d/40-libinput.conf
 sudo touch ./.have_installed
-echo "hdmi:capacity:55-1920x1080:90:1920:1080" > ./.have_installed
+echo "hdmi:capacity:55-1920x1080:0:1920:1080" > ./.have_installed
 sudo sync
 sudo sync
 sleep 1
