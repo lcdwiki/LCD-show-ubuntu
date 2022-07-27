@@ -39,9 +39,9 @@ sudo cp -rf ./usr/99-fbturbo.conf-HDMI /usr/share/X11/xorg.conf.d/99-fbturbo.con
 if [ ! -d /etc/X11/xorg.conf.d ]; then
 sudo mkdir /etc/X11/xorg.conf.d
 fi
-sudo cp -rf ./usr/99-calibration.conf-397-90 /etc/X11/xorg.conf.d/99-calibration.conf
+sudo cp -rf ./usr/99-calibration.conf-397-270 /etc/X11/xorg.conf.d/99-calibration.conf
 sudo touch ./.have_installed
-echo "hdmi:resistance:397:0:480:800" > ./.have_installed
+echo "hdmi:resistance:397:270:480:800" > ./.have_installed
 
 #nodeplatform=`uname -n`
 #kernel=`uname -r`
