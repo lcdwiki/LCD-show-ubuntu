@@ -26,7 +26,6 @@ sudo cp ./usr/mhs35-overlay.dtb /boot/firmware/overlays/
 sudo cp ./usr/mhs35-overlay.dtb /boot/firmware/overlays/mhs35.dtbo
 fi
 
-source ./system_config.sh
 if [[ "$version" < "20.04" ]]; then
 #if [ $hardware_arch -eq 32 ]; then
 #sudo cp -rf ./boot/config-nomal.txt ./boot/config.txt.bak
